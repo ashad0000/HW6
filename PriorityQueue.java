@@ -1,7 +1,6 @@
-
 /******************************************************************
  *
- *   YOUR NAME / SECTION NUMBER
+ *   Abdul / 272
  *
  *   Note, additional comments provided throughout this source code
  *   is for educational purposes
@@ -14,33 +13,33 @@ import java.util.Comparator;
 /**
  * Class PriorityQueue<E,P>
  *
- * The class implements a priority queue utilizing a min heap. The underlying 
- * data structure that implements the heap is an array of type 'Node'. Each 
- * element's value and priority data types are defined using a class generic 
- * interface. 
+ * The class implements a priority queue utilizing a min heap. The underlying
+ * data structure that implements the heap is an array of type 'Node'. Each
+ * element's value and priority data types are defined using a class generic
+ * interface.
  *
- * On instantiation of this class, the data types of 'E' and 'P' are specified. 
- * In this case, the type 'E' is the element's value data type, and 'P' is the 
- * priority value data type. The priority object specified needs to have a 
+ * On instantiation of this class, the data types of 'E' and 'P' are specified.
+ * In this case, the type 'E' is the element's value data type, and 'P' is the
+ * priority value data type. The priority object specified needs to have a
  * comparable operator implemented (if the default comparable operator will not
- * suffice); case in point, if using data type Integer, it has a pre-defined 
+ * suffice); case in point, if using data type Integer, it has a pre-defined
  * comparable operator. But, this class  allows for more sophisticated
- * priority comparisons (e.g., see below on aging discussions as we also 
+ * priority comparisons (e.g., see below on aging discussions as we also
  * discussed in class).
  *
- * To allow the application (aka, user of this class) to have very basic priority 
- * management, the class does provide a method, changePriority(), such that you 
- * can change a priority of an element already on the queue. The invoker will need 
- * to know the node's element to use this (aka, have a handle to it), which is 
- * returned from the method which adds the element to the queue. This is for very 
+ * To allow the application (aka, user of this class) to have very basic priority
+ * management, the class does provide a method, changePriority(), such that you
+ * can change a priority of an element already on the queue. The invoker will need
+ * to know the node's element to use this (aka, have a handle to it), which is
+ * returned from the method which adds the element to the queue. This is for very
  * basic priority management. Additionally, the invoker can dequeue an element
  * no matter where it is on the queue before it gets processes (popped off), and
  * later, if desired, enqueue it with a higher and/or lower priority.
  *
- * A more sophisticated approach would be to implement a weighted priority scheme 
- * that optionally allows aging and/or fair scheduling techniques to ensure there 
- * is no starvation. This is simple to do with this class. It is accomplished, by 
- * specifying an object type for the priority that supports this capability, and 
+ * A more sophisticated approach would be to implement a weighted priority scheme
+ * that optionally allows aging and/or fair scheduling techniques to ensure there
+ * is no starvation. This is simple to do with this class. It is accomplished, by
+ * specifying an object type for the priority that supports this capability, and
  * has defined  an appropriate comparable operator.
  *
  * Public Methods:
@@ -53,35 +52,35 @@ import java.util.Comparator;
  *                        returns null if this queue is empty.
  * Node add(E,P)        - Inserts the specified element into this priority queue.
  * Node offer(E,P)      - Inserts the specified element into this priority queue.
- * Node remove()        - Retrieves and removes the head of this queue. This 
- *                        method differs from poll only in that it throws an 
+ * Node remove()        - Retrieves and removes the head of this queue. This
+ *                        method differs from poll only in that it throws an
  *                        exception if this queue is empty.
- * Node poll()          - Retrieves and removes the head of this queue, or returns 
+ * Node poll()          - Retrieves and removes the head of this queue, or returns
  *                        null if this queue is empty.
  * boolean contains(E)  - Returns true if element 'E' is in queue, else false.
- * ArrayList<E> toArray - returns an array consisting of the element values in the 
+ * ArrayList<E> toArray - returns an array consisting of the element values in the
  *                        queue.
- * void printPriorityQueue - This method is for debugging purposes, it will print 
+ * void printPriorityQueue - This method is for debugging purposes, it will print
  *                        out the min heap
  *
  *
  * Additional methods: The type 'Node' is returned from several methods. It
  * acts as a handle to the queued object when it is on the priority queue. The
- * following methods are available on the object 'Node' when the object is still 
+ * following methods are available on the object 'Node' when the object is still
  * on the queue:
  *  - changePriority    - given a handle to a node, you can change its priority
- *  - remove            - given a handle to a node, you can remove it from the 
+ *  - remove            - given a handle to a node, you can remove it from the
  *                        queue directly
  *
  */
 
 class PriorityQueue<E, P> {
 
-    private static final int DEFAULT_CAPACITY = 10; // initial queue size
-  
+    private static final int DEFAULT_CAPACITY = 10;  // initial queue size
+
     final Comparator<P> comparator;
-    final ArrayList<Node> tree;       // The Heap is stored in an array as a tree
-                                      // with the root at index 0 (not 1)
+    final ArrayList<Node> tree;  // The Heap is stored in an array as a tree
+    // with the root at index 0 (not 1)
 
     /*
      * Constructors
@@ -110,24 +109,21 @@ class PriorityQueue<E, P> {
     public void clear()             { tree.clear(); }
     public Node offer(E e, P p)     { return add(e, p); }
 
-
     /**
      * Public Method peek()
      *
-     * Retrieves, but does not remove, the head of this queue, or returns null 
+     * Retrieves, but does not remove, the head of this queue, or returns null
      * if this queue is empty.
      *
-     * @return: Node    - An element of type Node is returned, else null 
+     * @return: Node    - An element of type Node is returned, else null
      *                    if queue is empty.
      */
-
     public Node peek() {
         if (size() == 0) {
             return null;
         }
         return tree.get(0);
     }
-
 
     /**
      * Public Method add(E,P)
@@ -136,25 +132,25 @@ class PriorityQueue<E, P> {
      * lowest level of the tree. It then will pull up the inserted element towards
      * the root until it is in its correct location on the heap.
      *
-     * The parameters are the object representing the element to queue, along with 
-     * its priority object. The method returns the type Node, which allows a handle 
-     * to the inserted item by the invoking application (if desired). The invoking 
-     * application has the availability to invoke any method available on type Node 
-     * after it is returned, including changing the priority of an element while 
+     * The parameters are the object representing the element to queue, along with
+     * its priority object. The method returns the type Node, which allows a handle
+     * to the inserted item by the invoking application (if desired). The invoking
+     * application has the availability to invoke any method available on type Node
+     * after it is returned, including changing the priority of an element while
      * still on the queue.
      *
      * @param: E e          - Element to add to queue
      * @param: P priority   - The priority for the newly added element
-     * @return: Node        - Returns an object of type 'Node' representing the 
+     * @return: Node        - Returns an object of type 'Node' representing the
      *                        newly inserted element
      */
-
     public Node add(E e, P priority) {
-
-        // YOUR CODE GOES HERE
-        return null;
+        // create node and add it to heap array
+        Node newNode = new Node(e, priority, tree.size());  // create node
+        tree.add(newNode);  // add to heap array
+        pullUp(newNode.idx);  // restore heap-order
+        return newNode;  // return handle to node
     }
-
 
     /**
      * Public Method contains(E)
@@ -165,24 +161,15 @@ class PriorityQueue<E, P> {
      *
      * @return: boolean - true if element in queue, else false.
      */
-
     public boolean contains(E e) {
-
-        // ADD YOUR CODE HERE
+        // loop through heap to check for value
+        for (Node node : tree) {  // iterate over nodes
+            if (!node.removed && node.value.equals(e)) {  // check valid and match
+                return true;
+            }
+        }
         return false;
     }
-
-
-    /**
-     * Public Method remove()
-     *
-     * Retrieves and removes the head of this queue. This method differs from 
-     * poll only in that it throws an exception if this queue is empty. This 
-     * implementation returns the result of poll unless the queue is empty.
-     *
-     * @return: Node    - Returns an object of type 'Node' representing 
-     *                    the removed element
-     */
 
     public Node remove() {
         if (tree.size() == 0) {
@@ -191,29 +178,7 @@ class PriorityQueue<E, P> {
         return poll();
     }
 
-
-    /**
-     * Public Method poll()
-     *
-     * Retrieves and removes the head of this queue, or returns null if this 
-     * queue is empty. In removing the highest priority element, it is removed 
-     * from the top of the heap (root). The right most leaf on the lowest level 
-     * of the heap is copied and placed as the root, and that leaf is removed 
-     * from the heap. Again Note: the heap is stored in an array. 
-     *
-     * Finally, the heap needs to be re-heapified by pushing the newly placed 
-     * element at the root down to its proper place in the heap.
-     *
-     * This method returns the object 'Node' representing the removed element. 
-     * This type Node object is marked as removed and no longer part of the 
-     * queue.
-     *
-     * @return: Node  - Returns an object of type 'Node' representing 
-     *                  the removed element
-     */
-
     public Node poll() {
-
         if (tree.size() == 0)
             return null;
 
@@ -230,21 +195,7 @@ class PriorityQueue<E, P> {
             pushDown(0);
             return head;
         }
-
     }
-
-
-    /**
-     * Private Method pushDown(int)
-     *
-     * This method is called when dequeuing an element from the queue. The shape 
-     * of the min heap is expected to be correct, and this is being called to 
-     * re-heapify the heap by pushing the value of the element specific by the 
-     * array index location down the tree to the correct location. Recall, the
-     * heap structured is stored in an array. 
-     *
-     * @param: int i    - The node in the min heap to push down as appropriate.
-     */
 
     private void pushDown(int i) {
         while (leftChild(i) < size() && compare(tree.get(leftChild(i)).priority, tree.get(i).priority) < 0 ||
@@ -260,19 +211,6 @@ class PriorityQueue<E, P> {
             }
         }
     }
-
-
-    /**
-     * Private Method pullUp(int)
-     *
-     * This method is called when enqueuing an element on the queue. The shape of 
-     * the min heap is expected to be correct, and this is being called to re-heapify
-     * the heap by pulling up the value in the logical tree based on the element 
-     * value at the location specified by the array index location passed to 
-     * this method.
-     *
-     * @param: int i    - The node in the min heap to push down as appropriate.
-     */
 
     private void pullUp(int i) {
         while (i != 0 && compare(tree.get(parent(i)).priority, tree.get(i).priority) > 0) {
@@ -298,37 +236,15 @@ class PriorityQueue<E, P> {
         tree.set(idx2, node1);
     }
 
-
-    /**
-     * Public Method toArray()
-     *
-     * This method returns an ArrayList of type 'E', which is the nodes element 
-     * value. The returned array will be populated from array slots 0...n-1, 
-     * where there area n elements in the array. It will represent the flattened 
-     * out tree structure in the array implementation of the min heap.
-     *
-     * @return: ArrayList<E>    - an array consisting of the element values 
-     *                            in the queue
-     */
-
     public ArrayList<E> toArray() {
-         ArrayList<E> array = new ArrayList<>();
-         for (int i=0 ; i < size() ; i++) {
+        ArrayList<E> array = new ArrayList<>();
+        for (int i=0 ; i < size() ; i++) {
             array.add(tree.get(i).value());
         }
-         return array;
+        return array;
     }
 
-
-    /**
-     * Public Method printPriorityQueue()
-     *
-     * This method is for debugging purposes, it will print out the min heap by
-     * iterating through the array. The tree structure is overlayed on the array.
-     */
-
     public void printPriorityQueue() {
-
         System.out.print("Priority Queue: [ ");
         for (int i=0 ; i < size() ; i++) {
             Node node = tree.get(i);
@@ -337,31 +253,6 @@ class PriorityQueue<E, P> {
         System.out.println("]");
         return;
     }
-
-
-    /**
-     * Class Node
-     *
-     * This object represent a node of the min Heap; as a result, the array 
-     * implementation of the min heap is an array of type Node. The constructor of 
-     * Node is based on a generic interface and takes the object types of 'E' and 'P' 
-     * from the instantiation of the class PriorityQueue which encapsulates 
-     * this object.
-     *
-     * Object type 'E' is the object type of the value of each element in the min 
-     * heap. And the type 'P' is the data type of its priority.
-     *
-     * Several key method are provided on the Node object. The object is returned 
-     * to the application on methods of PriorityQueue which add it to the minHeap.
-     * That returned object represents a handle to that element which is currently 
-     * in the queue (min heap).
-     *
-     * With this handle, the application can utilize the methods:
-     *  - changePriority - Change a priority of a element on the priority queue
-     *  - remove         - remove the element from the queue.
-     *  - isvalid        - returns true if  handle to an element is still in the queue,
-     *                     or returns false if it was removed already.
-     */
 
     public class Node {
         public Node(E value, P priority, int idx) {
@@ -381,20 +272,6 @@ class PriorityQueue<E, P> {
         public P priority()         { return priority; }
         public boolean isValid()    { return !removed; }
 
-
-        /*
-         * Method changePriority
-         *
-         * The class Node, which represents an element on the queue, is
-         * returned from select methods of class PriorityQueue<E,P>. This
-         * Node object represents not only the content associated to a
-         * returned element on the queue, but if the element is still on
-         * the queue (e.g., was returned by peek()), the invoking
-         * application can use the method changePriority() to change the
-         * element's priority while still on the queue. It will be adjusted
-         * appropriately in the heap.
-         */
-
         public void changePriority(P newPriority) {
             checkNodeValidity();
             if (compare(newPriority, priority) < 0) {
@@ -412,19 +289,6 @@ class PriorityQueue<E, P> {
             }
         }
 
-        /*
-         * Method remove
-         *
-         * The class Node represents an element on the queue. Select methods of
-         * the class PriorityQueue<E,P> return this object representing an
-         * element on teh queue (e.g., poll()). The invoking application can
-         * use data type as a handle to the element on the queue, even if the queue
-         * changes and it is no longer at the top of the heap. By using this method,
-         * remove, on the handle of type Node, the application can remove the
-         * element from the queue even though the queue changed and it may now be
-         * somewhere in the middle of the queue.
-         */
-
         public void remove() {
             checkNodeValidity();
 
@@ -440,8 +304,8 @@ class PriorityQueue<E, P> {
                 final Node nodeToMoveToThisIdx = tree.remove(tree.size() - 1);
                 nodeToMoveToThisIdx.idx = idx;
                 tree.set(idx, nodeToMoveToThisIdx);
-                if (compare(tree.get(parent(idx)).priority, 
-                                            nodeToMoveToThisIdx.priority) > 0) {
+                if (compare(tree.get(parent(idx)).priority,
+                        nodeToMoveToThisIdx.priority) > 0) {
                     pullUp(idx);
                 } else {
                     pushDown(idx);
